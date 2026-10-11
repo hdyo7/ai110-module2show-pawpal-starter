@@ -1,54 +1,36 @@
-"""Dataclass-based skeleton for the PawPal pet care system."""
+"""Dataclass-based skeleton matching diagrams/uml_draft.mmd."""
 
 from dataclasses import dataclass, field
+from datetime import datetime
 
 
 @dataclass
-class Task:
-    category: str
-    time: str
+class task:
+    description: str
+    time: datetime
+    frequency: str
     completed: bool = False
 
-
-@dataclass
-class Pet:
-    name: str
-    weight: float
-    age: int
-    food: str
-    medication: list[Task] = field(default_factory=list)
-    walks: list[Task] = field(default_factory=list)
-    meals: list[Task] = field(default_factory=list)
-    allergies: list[str] = field(default_factory=list)
-
-    def medication_taken(self) -> int:
-        pass
-
-    def walks_taken(self) -> int:
-        pass
-
-    def add_allergy(self, allergy: str) -> None:
-        pass
-
-    def meal_time(self, time: str) -> None:
-        pass
-
-    def meal_type(self, category: str) -> None:
-        pass
-
-    def weight_change(self, new_weight: float) -> float:
+    def mark_complete(self) -> None:
         pass
 
 
 @dataclass
-class Owner:
+class pet:
     name: str
-    pets: list[Pet] = field(default_factory=list)
+    species: str
+    tasks: list[task] = field(default_factory=list)
 
-    def add_pet(self, pet: Pet) -> None:
+
+@dataclass
+class owner:
+    name: str
+    pets: list[pet] = field(default_factory=list)
+
+    def get_all_tasks(self) -> list[task]:
         pass
 
 
-class Scheduler:
-    def care_plan(self, owner: Owner) -> list[Task]:
+class scheduler:
+    def create_schedule(self, owner: owner) -> list[task]:
         pass

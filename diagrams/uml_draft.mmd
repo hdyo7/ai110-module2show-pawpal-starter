@@ -1,41 +1,29 @@
-```mermaid
 classDiagram
-    class Owner {
+    class task {
+        +string description
+        +datetime time
+        +string frequency
+        +boolean completed
+        +mark_complete() void
+    }
+
+    class pet {
+        +string name
+        +string species
+        +task[] tasks
+    }
+
+    class owner {
         +string name
         +pet[] pets
-        +add_pet(pet: pet) void
+        +get_all_tasks() task[]
     }
 
-    class Pet {
-        +string name
-        +float weight
-        +integer age
-        +string food
-        +task[] medication
-        +task[] walks
-        +task[] meals
-        +string[] allergies
-        +medication_taken() integer
-        +walks_taken() integer
-        +add_allergy(allergy: string) void
-        +meal_time(time: string) void
-        +meal_type(category: string) void
-        +weight_change(new_weight: float) float
+    class scheduler {
+        +create_schedule(owner: owner) task[]
     }
 
-    class Task {
-        +string category
-        +string time
-        +boolean completed
-    }
-
-    class Scheduler {
-        +care_plan(owner: owner) task[]
-    }
-
-    Owner "1" o-- "0..*" Pet : cares for
-    Pet "1" *-- "0..*" Task : records care activities
-    Scheduler ..> Owner : uses owner and pet details
-    Scheduler ..> Pet : considers care needs
-    Scheduler ..> Task : creates daily plan
-```
+    owner "1" o-- "0..*" pet : manages
+    pet "1" *-- "0..*" task : stores
+    scheduler ..> owner : calls get_all_tasks()
+    scheduler ..> task : organizes into a schedule
