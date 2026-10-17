@@ -47,12 +47,20 @@ pip install -r requirements.txt
 Paste a sample of your app's CLI or Streamlit output here so a reader can see what a generated plan looks like:
 
 ```
-# e.g.:
-# Daily plan for Biscuit (Golden Retriever):
-#   08:00 — Morning walk (30 min) [priority: high]
-#   09:00 — Feeding (10 min) [priority: high]
-#   ...
+# Today's Schedule
+# Care plan for Jordan
+# 7:30 AM - Breakfast (Pepper, 10 min, daily)
+# 8:00 AM - Morning walk (Mochi, 30 min, daily)
+# 6:00 PM - Evening feeding (Mochi, 15 min, daily)
 ```
+## Implimentation Summary
+The classes descriptions are as follows 
+	Task: stores different metrics by which a task is informed or measured
+	Pet: owns a list of tasks and ensures a task can only belong to one pet at a time.
+	Owner: groups pets together under an owner. It also produces the sum total of tasks for all pets under an owner
+	Scheduler: takes an Owner, collects all tasks, and sorts them by preferred time
+	
+Each class depends on the others . Owner contains Pets, each Pet contains Tasks, and the Scheduler reads the owner’s full task list to produce a care plan.
 
 ## 🧪 Testing PawPal+
 
@@ -74,12 +82,24 @@ Sample test output:
 
 > Fill in once you've implemented scheduling logic.
 
-| Feature | Method(s) | Notes |
-|---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+	Task: stores different metrics by which a task is informed or measured
+	Pet: owns a list of tasks and ensures a task can only belong to one pet at a time.
+	Owner: groups pets together under an owner. It also produces the sum total of tasks for all pets under an owner
+	Scheduler: takes an Owner, collects all tasks, and sorts them by preferred time
+	
+	Each class depends on the others . Owner contains Pets, each Pet contains Tasks, and the Scheduler reads the owner’s full task list to produce a care plan.
+	
+	Sorting behavior — Scheduler.sort_by_time() and Scheduler.create_schedule()
+	sort_by_time() returns tasks in ascending preferred_time order. Tasks without a preferred time appear last, and tasks with matching times keep their original order. create_schedule() collects tasks from all of an owner’s pets and sorts them using this method.
+	
+	Filtering behavior — Scheduler.filter_tasks()
+	Tasks can be filtered by completion status, pet name, or both. A task counts as completed if it has at least one recorded completion in completed_occurrences. Pet-name matching is case-insensitive, and a task must match both criteria when both are supplied.
+	
+	Conflict detection — Scheduler.detect_time_conflicts() and Scheduler.conflict_warnings()
+	detect_time_conflicts() returns pairs of distinct tasks with the same non-None preferred time, whether they belong to the same pet or different pets. It checks for matching start times only; it does not compare durations to detect overlapping intervals. conflict_warnings() turns those pairs into readable warning messages.
+	
+	Recurring tasks — Task.mark_complete()
+	When a completion is recorded, mark_complete() creates the next task for daily and weekly frequencies, due one or seven days after the supplied completion timestamp. It preserves the preferred time, or uses the completion time if no preferred time is set. If the task belongs to a pet, the new task is attached to that pet.
 
 ## 📸 Demo Walkthrough
 

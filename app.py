@@ -1,5 +1,7 @@
 import streamlit as st
 
+from pawpal_system import Task, Pet, Owner # Used Python import statement to bring specific classes from pawpal_system.py into this file
+
 st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
 
 st.title("🐾 PawPal+")
@@ -43,11 +45,17 @@ owner_name = st.text_input("Owner name", value="Jordan")
 pet_name = st.text_input("Pet name", value="Mochi")
 species = st.selectbox("Species", ["dog", "cat", "other"])
 
+# Create the Owner once so it survives Streamlit reruns
+if "owner" not in st.session_state:
+    st.session_state.owner = Owner(name=owner_name)
+owner = st.session_state.owner
+
+if st.button("Add pet"):
+    owner.add_pet(Pet(name=pet_name, species=species))
+    st.success(f"Added {pet_name}")
+
 st.markdown("### Tasks")
 st.caption("Add a few tasks. In your final version, these should feed into your scheduler.")
-
-if "tasks" not in st.session_state:
-    st.session_state.tasks = []
 
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -57,10 +65,15 @@ with col2:
 with col3:
     priority = st.selectbox("Priority", ["low", "medium", "high"], index=2)
 
-if st.button("Add task"):
-    st.session_state.tasks.append(
-        {"title": task_title, "duration_minutes": int(duration), "priority": priority}
-    )
+if owner.pets:
+    pet_choice = st.selectbox("Assign to pet", [p.name for p in owner.pets])
+
+    if st.button("Add task"):
+        pet = next(p for p in owner.pets if p.name == pet_choice)
+        pet.add_task(Task(description=task_title, time="08:00", frequency="daily"))
+        st.success("Task added")
+else:
+    st.info("Add a pet first, then you can add tasks.")
 
 if st.session_state.tasks:
     st.write("Current tasks:")
