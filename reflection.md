@@ -38,12 +38,15 @@
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
 - What kinds of prompts or questions were most helpful?
 
+(ANSWER): It waa very helpful in clearing up confusing code logic or errors. I felt it helped significantly in keeping track of the tangled web of features, methods, classes and their interactions.  
+
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
 - How did you evaluate or verify what the AI suggested?
 
 ---
+(AMSWER): There was one point where the AI had asked me to cut down on the features. However I felt it would leave the app unable to account for edge cases such as a sick animal or one with very specific dietary restrictions. There was certainly a pull from the AI to standardize things and I think that pull ignores those edge cases 
 
 ## 4. Testing and Verification
 
@@ -52,23 +55,26 @@
 - What behaviors did you test?
 - Why were these tests important?
 
+(ANSWER) I ensured to test for the Apps ability to remeber. It was the core of the whole project and I feel the app does a good job of parsing between pets, their tasks, and so on
+
 **b. Confidence**
 
 - How confident are you that your scheduler works correctly?
 - What edge cases would you test next if you had more time?
 
 ---
-
+(Answer): I actually noticed an issue with the owners part of the project. I wish I could have tested more in the codebase to find where the issue originated. it does not do a good job remebering owners
 ## 5. Reflection
 
 **a. What went well**
 
 - What part of this project are you most satisfied with?
-
+(Answer): I would say I am satisfied with how I have learned to use the AI. 
 **b. What you would improve**
 
 - If you had another iteration, what would you improve or redesign?
-
+(ANSWER): I am not happy with my oversight on the owners issue. I need to better track the changes being made
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+(ANSWER): AI is only as good as the person keeping an eye on it. 

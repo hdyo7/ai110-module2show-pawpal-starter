@@ -1,0 +1,39 @@
+classDiagram
+    class Task {
+        +string description
+        +string frequency
+        +int duration_minutes
+        +Pet | None pet
+        +time | None preferred_time
+        +datetime[] completed_occurrences
+        +datetime | None due_at
+        +mark_complete(occurrence: datetime) Task | None
+    }
+
+    class Pet {
+        +string name
+        +string species
+        +Task[] tasks
+        +add_task(new_task: Task) void
+    }
+
+    class Owner {
+        +string name
+        +Pet[] pets
+        +add_pet(new_pet: Pet) void
+        +get_all_tasks() Task[]
+    }
+
+    class Scheduler {
+        +detect_time_conflicts(tasks: Task[]) (Task, Task)[]
+        +conflict_warnings(tasks: Task[]) string[]
+        +filter_tasks(tasks: Task[], completed: bool | None, pet_name: string | None) Task[]
+        +sort_by_time(tasks: Task[]) Task[]
+        +create_schedule(owner: Owner) Task[]
+    }
+
+    Owner "1" o-- "0..*" Pet : manages
+    Pet "0..1" -- "0..*" Task : stores
+    Scheduler ..> Owner : gets all tasks
+    Scheduler ..> Task : filters, sorts, and checks conflicts
+    Task ..> Pet : attaches next recurring task

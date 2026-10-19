@@ -75,8 +75,17 @@ pytest --cov
 Sample test output:
 
 ```
-# Paste your pytest output here
+=========================== test session starts ============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\vyoji\OneDrive\Documents\ai110_Class_Assignments\ai110-module2show-pawpal-starter
+collected 18 items                                                          
+
+Tests\test_pawpal.py ..................                               [100%]
+
+============================ 18 passed in 0.09s ============================
 ```
+Confidence level - 5
+
 
 ## 📐 Smarter Scheduling
 
@@ -105,10 +114,10 @@ Sample test output:
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. <!-- The app prompts users to enter pet, owner, and task information -->
+2. <!-- Once a pets name has been submitted, the app remebers the pet and will show all the names of added pets when a user goes to give the task details -->
+3. <!-- Users tasks are recorded -->
+4. <!-- When a user chooses to generate their plan, the app will show a plan involving all of the pets -->
+5. <!-- The app will note any time conflicts in the schedule.-->
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
