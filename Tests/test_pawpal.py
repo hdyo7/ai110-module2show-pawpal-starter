@@ -23,6 +23,15 @@ def test_daily_task_due_date_advances_across_year_boundary() -> None:
     assert next_task.due_at == datetime(2027, 1, 1, 8, 0)
 
 
+def test_daily_task_due_date_advances_across_leap_day() -> None:
+    task = Task("Morning walk", "daily", 30)
+
+    next_task = task.mark_complete(datetime(2028, 2, 28, 8, 0))
+
+    assert next_task is not None
+    assert next_task.due_at == datetime(2028, 2, 29, 8, 0)
+
+
 def test_mark_complete_preserves_timezone_on_next_due_date() -> None:
     task = Task("Morning walk", "daily", 30)
     occurrence = datetime(2026, 10, 16, 8, 0, tzinfo=timezone.utc)
@@ -88,6 +97,24 @@ def test_sort_by_time_orders_tasks_chronologically_and_puts_untimed_last() -> No
     assert result == [early_task, late_task, untimed_task]
 
 
+def test_sort_by_time_is_stable_and_does_not_modify_input() -> None:
+    first_at_midnight = Task("Breakfast", "daily", 10, preferred_time=time(0, 0))
+    second_at_midnight = Task("Medication", "daily", 5, preferred_time=time(0, 0))
+    last_timed_task = Task("Evening walk", "daily", 30, preferred_time=time(23, 59))
+    untimed_task = Task("Grooming", "weekly", 30)
+    tasks = [second_at_midnight, untimed_task, last_timed_task, first_at_midnight]
+
+    result = Scheduler().sort_by_time(tasks)
+
+    assert result == [
+        second_at_midnight,
+        first_at_midnight,
+        last_timed_task,
+        untimed_task,
+    ]
+    assert tasks == [second_at_midnight, untimed_task, last_timed_task, first_at_midnight]
+
+
 def test_detect_time_conflicts_for_tasks_assigned_to_the_same_pet() -> None:
     pet = Pet("Mochi", "dog")
     walk = Task("Walk", "daily", 30, preferred_time=time(8, 0))
@@ -96,6 +123,20 @@ def test_detect_time_conflicts_for_tasks_assigned_to_the_same_pet() -> None:
     pet.add_task(medication)
 
     assert Scheduler().detect_time_conflicts(pet.tasks) == [(walk, medication)]
+
+
+def test_detect_time_conflicts_returns_every_pair_for_duplicate_times() -> None:
+    walk = Task("Walk", "daily", 30, preferred_time=time(8, 0))
+    medication = Task("Medication", "daily", 5, preferred_time=time(8, 0))
+    feeding = Task("Feeding", "daily", 10, preferred_time=time(8, 0))
+
+    conflicts = Scheduler().detect_time_conflicts([walk, medication, feeding])
+
+    assert conflicts == [
+        (walk, medication),
+        (walk, feeding),
+        (medication, feeding),
+    ]
 
 
 def test_detect_time_conflicts_across_different_pets() -> None:
